@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ingresosDiarios" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c642b766-7faa-4415-80c6-82db91f93956">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha_ini" class="java.lang.String"/>
+	<parameter name="fecha_fin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="identificacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_razon" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observaciones" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_pago" class="java.lang.String"/>
+	<field name="valor" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="franquicia" class="java.lang.String"/>
+	<field name="voucher" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="recibo_caja" class="java.lang.String"/>
+	<field name="concepto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_factura" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cheque" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="recep" class="java.lang.String"/>
+	<variable name="total_general" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<group name="fecha">
+		<groupExpression><![CDATA[$F{fecha}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField pattern="yyyy/MM/dd">
+					<reportElement uuid="20b1e2af-2865-456a-ae8c-9524d4003def" x="0" y="0" width="88" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="tipo pago">
+		<groupExpression><![CDATA[$F{tipo_pago}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="2e1a2418-96e0-4969-bdb1-97f15c3476e0" x="22" y="0" width="66" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{tipo_pago}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6e3d6958-2c2c-4c35-b431-bcc9ae1e1876" x="188" y="0" width="384" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[($F{tipo_pago}.contains("Tarjeta")) ? "Franquicia:  "+$F{franquicia} +"  -  Aprobación: "+$F{voucher} : ($F{tipo_pago}.contains("Cheque")) ? " "+$F{cheque} : ""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="04607226-ee67-4809-955f-513c13735d82" x="0" y="0" width="572" height="25"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Ingresos]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6dd9584d-3066-4bc1-a980-81e699af995f" x="0" y="42" width="229" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Recepcionista: "+$F{recep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6dd9584d-3066-4bc1-a980-81e699af995f" x="0" y="57" width="228" height="15"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desde: "+$P{fecha_ini}+" Hasta: "+$P{fecha_fin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement uuid="cc5a147d-e155-4ea0-8f57-c67e8b9c159e" x="22" y="0" width="41" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RC:  "+$F{recibo_caja}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="37a09145-c303-43e8-8322-2f3a0dc470f9" x="142" y="0" width="221" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="36cee010-7948-47b0-8332-964a7634e3f4" x="363" y="0" width="209" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Cliente:  "+$F{identificacion}+" - "+$F{nombre_razon}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0">
+				<reportElement uuid="e8c15044-69c8-46ee-9590-a2374f6b0459" x="63" y="0" width="69" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="34" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement uuid="12752f9d-1460-4245-ae4c-c3fd6715b5a1" x="88" y="14" width="140" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1c35bd29-ad03-483e-8927-0ba6ac15737f" x="0" y="14" width="88" height="20"/>
+				<textElement/>
+				<text><![CDATA[Fecha de Informe:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fcb21673-30be-4c77-ad3c-51d93c7b5c8c" x="418" y="14" width="154" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "+ $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="22">
+			<textField pattern="¤ #,##0">
+				<reportElement uuid="ec46cf8b-ebbd-4344-814f-5106b3c48d85" x="456" y="0" width="116" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_general}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a5ad99c3-a9c2-4193-a06b-cd7444110f86" x="374" y="0" width="82" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Ingresos:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
