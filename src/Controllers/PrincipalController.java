@@ -60,7 +60,6 @@ import Utils.TestConection;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -102,7 +101,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import jdk.nashorn.internal.ir.LiteralNode;
 import net.sf.jasperreports.engine.JRException;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -352,6 +350,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.pbtnPagosRealizados.addActionListener(this);
         pg.pbtnPrint.addActionListener(this);
         ocultarModulos();
+        ocultarPaneles("inicio");
     }
 
 //    public void cargarComponentesNumeracion() throws SQLException {
@@ -2034,24 +2033,29 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         String estadoFacturaFind = (String) pr.cboEstadoFacturaBuscar.getSelectedItem();
                         if (!estadoFacturaFind.equals("-- Seleccione --")) {
                             sql = ", estados_facturas e where f.id_empresa = '" + Principal.idVendedor.getText() + "' and e.nombre = '" + estadoFacturaFind
-                                    + "' and e.id_estado_factura = f.id_estado_factura and e.nombre <> 'Cotización' ";
+                                    + "' and e.id_estado_factura = f.id_estado_factura";
                         }
                         break;
                     case "Rango De Fechas":
                         if (pr.cldFechaIni.getDate() != null && pr.cldFechaFin.getDate() != null) {
-                            sql = " where f.id_empresa = '" + Principal.idVendedor.getText() + "' and f.fecha between '" + df.format(pr.cldFechaIni.getDate()) + " 00:00:00' and '" + df.format(pr.cldFechaFin.getDate()) + " 23:59:59'";
+                            sql = ", estados_facturas e where f.id_empresa = '" + Principal.idVendedor.getText() + "'"
+                                    + " and e.id_estado_factura = f.id_estado_factura"
+                                    + " and f.fecha between '" + df.format(pr.cldFechaIni.getDate()) + " 00:00:00' and '" + df.format(pr.cldFechaFin.getDate()) + " 23:59:59'";
                         }
                         break;
                     case "Id Factura":
                         String idFactura = pr.txtIdFactura.getText();
                         if (!idFactura.equals("")) {
-                            sql = " where f.id_empresa = '" + Principal.idVendedor.getText() + "' and f.id_factura = '" + idFactura + "'";
+                            sql = ", estados_facturas e where f.id_empresa = '" + Principal.idVendedor.getText() + "'"
+                                    + " and e.id_estado_factura = f.id_estado_factura"
+                                    + " and f.id_factura = '" + idFactura + "'";
                         }
                         break;
                     case "Id Cliente":
                         String idCliente = pr.txtIdFactura.getText();
                         if (!idCliente.equals("")) {
-                            sql = " inner join clientes c on c.id_cliente = f.id_cliente AND c.identificacion = '" + idCliente + "'"
+                            sql = " inner join estados_facturas e on e.id_estado_factura = f.id_estado_factura "
+                                    + "inner join clientes c on c.id_cliente = f.id_cliente AND c.identificacion = '" + idCliente + "'"
                                     + " where f.id_empresa = '" + Principal.idVendedor.getText() + "'";
                         }
                         break;
@@ -2083,11 +2087,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                         return;
                     }
                     if (!valor.equals("Seleccione")) {
-                        if (pr.tbFacturas.getValueAt(fila, 7).toString().equals("Anulada")) {
+                        if (pr.tbFacturas.getValueAt(fila, 4).toString().equals("Anulada")) {
                             if (!valor.equals("COPIA")) {
-                                valor += " " + pr.tbFacturas.getValueAt(fila, 7).toString().toUpperCase();
+                                valor += " " + pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
                             } else {
-                                valor = pr.tbFacturas.getValueAt(fila, 7).toString().toUpperCase();
+                                valor = pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
                             }
                         }
                         String opt = "COPIA";
@@ -3192,7 +3196,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 mi.estado.setText(pr.tbFacturas.getValueAt(fila, 4).toString());
                 mi.lblValor.setText(pr.tbFacturas.getValueAt(fila, 1).toString());
                 mi.setLocationRelativeTo(null);
-                mi.setVisible(true);                
+                mi.setVisible(true);
             }
             
         }

@@ -840,13 +840,27 @@ public class Utils {
         List<Facturas> list = new ArrayList<>();
         try {
             sql = "select * from facturas f" + Params;
+            System.out.println("sql fa = "+sql);
             pstm = cn.prepareStatement(sql);
             rs = pstm.executeQuery();
-            while (rs.next()) {
-                Facturas f = new Facturas(rs.getString(1), rs.getDate(2), rs.getString(3), rs.getInt(4), rs.getFloat(5), rs.getFloat(6), rs.getFloat(7),
-                        rs.getInt(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getDate(12),
-                        rs.getString(13), rs.getString(14), rs.getFloat(15), rs.getFloat(16));
-                list.add(f);
+            while (rs.next()) {                   
+                Facturas f = new Facturas();
+                f.setIdFactura(rs.getString(1));
+                f.setFecha(rs.getDate(2));
+                f.getResolucion().setIdResolucion(rs.getString(3));
+                f.getComprador().setIdCliente(rs.getInt(4));
+                f.setSubtotal(rs.getFloat(5));
+                f.setIva(rs.getFloat(6));
+                f.setTotal(rs.getFloat(7));
+                f.getEstado().setIdEstadoFactura(rs.getInt(8));
+                f.getVendedor().setIdEmpresa(rs.getString(9));
+                f.getUsuario().setIdUsuario(rs.getString(10));
+                f.setValidezDias(rs.getInt(11));
+                f.setVencimiento(rs.getDate(12));
+                f.setNota(rs.getString(13));
+                f.setTransacion(rs.getString(14));
+                f.getEstado().setNombre(rs.getString(16));
+                list.add(f);                  
             }
 
         } catch (SQLException e) {
@@ -1610,13 +1624,13 @@ public class Utils {
         return logo;
     }
 
-    public static ArrayList<String> MoreinfoFactura(String text) throws SQLException {
-        ArrayList<String> datos = new ArrayList();
+    public static ArrayList<String> MoreinfoFactura(String idFactura, String empresa) throws SQLException {
+        ArrayList<String> datos = new ArrayList();            
         String sqlq = "SELECT case when (select SUM(valor) from pagos where id_factura = f.id_factura) is not null "
                 + "then (select SUM(valor) from pagos where id_factura = f.id_factura) else 0 end as abonos,"
                 + " case when (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) is not null "
                 + " then (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) else 0 end as retenciones FROM facturas f "
-                + "where f.id_empresa = '51744384-1' and id_estado_factura <> 6 order by fecha DESC";
+                + "where f.id_empresa = '"+empresa+"' and f.id_factura = '"+idFactura+"' and id_estado_factura <> 6 order by fecha DESC";
         pstm = cn.prepareStatement(sqlq);
         rs = pstm.executeQuery();
         if (rs.next()) {            

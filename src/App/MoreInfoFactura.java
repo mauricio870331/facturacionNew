@@ -8,6 +8,7 @@ package App;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,8 @@ public class MoreInfoFactura extends javax.swing.JDialog{
     /**
      * Creates new form MoreInfoFactura
      */
+    DecimalFormat formateador = new DecimalFormat("###,###");
+    
     public MoreInfoFactura(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -193,12 +196,11 @@ public class MoreInfoFactura extends javax.swing.JDialog{
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        System.out.println("-- "+lblFactura.getText());        
         try {
-            ArrayList<String> datos = Utils.Utils.MoreinfoFactura(lblFactura.getText());
-            String[] partes = datos.get(0).split(",");
-            lblabonos.setText(partes[0]);
-            lblretenciones.setText(partes[1]);            
+            ArrayList<String> datos = Utils.Utils.MoreinfoFactura(lblFactura.getText(), Principal.idVendedor.getText());
+            String[] partes = datos.get(0).split(",");            
+            lblabonos.setText(formateador.format(Float.parseFloat(partes[0])));
+            lblretenciones.setText(formateador.format(Float.parseFloat(partes[1])));            
         } catch (SQLException ex) {
             System.out.println("error "+ex);
         }
