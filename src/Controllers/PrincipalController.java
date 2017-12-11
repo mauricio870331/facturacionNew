@@ -213,7 +213,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
 
     public PrincipalController() throws SQLException {
         Loader();
-        
+
     }
 
     private void Loader() throws SQLException {
@@ -352,7 +352,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pg.pbtnPrint.addActionListener(this);
         ocultarModulos();
         ocultarPaneles("inicio");
-       
+
     }
 
 //    public void cargarComponentesNumeracion() throws SQLException {
@@ -551,7 +551,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             } catch (SQLException ex) {
                 System.out.println("error " + ex);
-            }             
+            }
         }
 
         if (e.getSource() == emp.btnGuardar) {
@@ -3190,18 +3190,22 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
 
         if (e.getSource() == pr.tbFacturas) {
+
             int fila = pr.tbFacturas.getSelectedRow();
             int column = pr.tbFacturas.getSelectedColumn();
             if (fila >= 0 && column == 5) {
-                MoreInfoFactura mi = new MoreInfoFactura(pr, true);
+                System.out.println("e.getModifiers() " + e.getModifiers());
+                if (e.getModifiers() == 16) {
+                    MoreInfoFactura mi = new MoreInfoFactura(pr, true);
 //               {Factura, "Valor", "Creada", "Vence", "Estado", "Ver Mas"}
-                mi.lblFactura.setText(pr.tbFacturas.getValueAt(fila, 0).toString());
-                mi.lblFechaCreada.setText(pr.tbFacturas.getValueAt(fila, 2).toString());
-                mi.lblVence.setText(pr.tbFacturas.getValueAt(fila, 3).toString());
-                mi.estado.setText(pr.tbFacturas.getValueAt(fila, 4).toString());
-                mi.lblValor.setText(pr.tbFacturas.getValueAt(fila, 1).toString());
-                mi.setLocationRelativeTo(null);
-                mi.setVisible(true);
+                    mi.lblFactura.setText(pr.tbFacturas.getValueAt(fila, 0).toString());
+                    mi.lblFechaCreada.setText(pr.tbFacturas.getValueAt(fila, 2).toString());
+                    mi.lblVence.setText(pr.tbFacturas.getValueAt(fila, 3).toString());
+                    mi.estado.setText(pr.tbFacturas.getValueAt(fila, 4).toString());
+                    mi.lblValor.setText(pr.tbFacturas.getValueAt(fila, 1).toString());
+                    mi.setLocationRelativeTo(null);
+                    mi.setVisible(true);
+                }
             }
 
         }
