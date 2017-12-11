@@ -1277,14 +1277,27 @@ public class Utils {
         return pais;
     }
 
-    public static float ajusteFactura(float valor) {
+    public static float ajusteFactura(float valor, String empresa) {
+        boolean ajustar = false;
+        try {
+            sql = "select ajustar_peso from empresas where id_empresa = '" + empresa + "'";
+            pstm = cn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                ajustar = rs.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("error linea 1290 " + e);
+        }
         float ajuste = 0;
-        if (valor % 50 != 0.0) {
-            float valido = valor / (float) 50;
-            String valido2 = Float.toString(valido).replace(".", "-");
-            String[] z = valido2.split("-");
-            int dato2 = Integer.parseInt(z[0]) * 50;
-            ajuste = (int) (valor - (float) dato2);
+        if (ajustar) {
+            if (valor % 50 != 0.0) {
+                float valido = valor / (float) 50;
+                String valido2 = Float.toString(valido).replace(".", "-");
+                String[] z = valido2.split("-");
+                int dato2 = Integer.parseInt(z[0]) * 50;
+                ajuste = (int) (valor - (float) dato2);
+            }
         }
         return ajuste;
     }

@@ -213,6 +213,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
 
     public PrincipalController() throws SQLException {
         Loader();
+        
     }
 
     private void Loader() throws SQLException {
@@ -351,6 +352,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pg.pbtnPrint.addActionListener(this);
         ocultarModulos();
         ocultarPaneles("inicio");
+       
     }
 
 //    public void cargarComponentesNumeracion() throws SQLException {
@@ -433,7 +435,6 @@ public final class PrincipalController implements ActionListener, KeyListener, F
 //                            pr.mnuInventarios.setVisible(true);
 //                        }
 //                    }
-
                     Principal.idVendedor.setText(ua.getVendedor().getIdEmpresa());
                     Principal.idUsuarioLog.setText(ua.getIdUsuario());
                     Principal.idVendedor.setVisible(false);
@@ -550,8 +551,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             } catch (SQLException ex) {
                 System.out.println("error " + ex);
-            }
-
+            }             
         }
 
         if (e.getSource() == emp.btnGuardar) {
@@ -721,14 +721,14 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ocultarPaneles("mnuFacturacion");
                 try {
                     cargarTablaFactura("", true);
-                } catch (Exception ex) {
+                } catch (SQLException ex) {
                     System.out.println("error " + ex);
                 }
             } else {
                 ocultarPaneles("mnuFacturacion");
                 try {
                     cargarTablaFactura("", false);
-                } catch (Exception ex) {
+                } catch (SQLException ex) {
                     System.out.println("error " + ex);
                 }
             }
@@ -916,11 +916,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             String array[] = tipoHabitacion.split("-");
             int idTipoHabitacion = Integer.parseInt(array[0]);
-            TiposDeHabitacion tipo = tiposList.get(idTipoHabitacion - 1);
+            TiposDeHabitacion tipo2 = tiposList.get(idTipoHabitacion - 1);
 
-            th.txtCostoPersona.setText(formateador.format(tipo.getCostoPersona()));
-            th.txtCostoPareja.setText(formateador.format(tipo.getCostoPareja()));
-            th.txtCostoAdicional.setText(formateador.format(tipo.getCostoPersonaAdicional()));
+            th.txtCostoPersona.setText(formateador.format(tipo2.getCostoPersona()));
+            th.txtCostoPareja.setText(formateador.format(tipo2.getCostoPareja()));
+            th.txtCostoAdicional.setText(formateador.format(tipo2.getCostoPersonaAdicional()));
         }
 
         if (e.getSource() == th.btnCancelarTarifas) {
@@ -959,7 +959,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 cargarTipoHabitaciones();
                 th.setVisible(true);
             } catch (SQLException ex) {
-                System.out.println("error " + ex);;
+                System.out.println("error " + ex);
             }
         }
 
@@ -1065,8 +1065,8 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
 
         if (e.getSource() == mc.cboNacionalidad) {
-            String v = (String) mc.cboNacionalidad.getSelectedItem();
-            if (v == null) {
+            String v2 = (String) mc.cboNacionalidad.getSelectedItem();
+            if (v2 == null) {
                 return;
             } else if (!mc.cboNacionalidad.getSelectedItem().equals("Colombia - 52")) {
                 mc.txtCiudad.setEnabled(false);
@@ -1192,7 +1192,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 int fila3 = pr.tblListaHospedaje.getSelectedRow();
                 int habitacion3 = 0;
                 Date fechaEntrada = sa.parse(pr.tblListaHospedaje.getValueAt(fila3, 2).toString());
-                String fechaSalida = "";
+                String fechaSalida2 = "";
                 int hospedaje3 = (int) pr.tblListaHospedaje.getValueAt(fila3, 1);
                 String habitacion = ah.cboHabitacionesDisponibles.getSelectedItem().toString();
                 String[] parts = habitacion.split("-");
@@ -1207,7 +1207,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     habitacion3 = (int) pr.tblListaHospedaje.getValueAt(fila3, 7);
                 }
                 if (ah.chkEstadiaU.isSelected()) {
-                    fechaSalida = sb.format(sumarRestarDiasFecha(fechaEntrada, (int) ah.spnEstadia.getValue(), 1));
+                    fechaSalida2 = sb.format(sumarRestarDiasFecha(fechaEntrada, (int) ah.spnEstadia.getValue(), 1));
                 }
                 int personas = (int) ah.spnAdultosU.getValue() + (int) ah.spnNinosU.getValue();
                 try {
@@ -1223,7 +1223,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     consultas.add("update habitaciones set disponible = 1 where id_habitacion = " + parts[1].trim() + "");
                 }
                 if (ah.chkEstadiaU.isSelected()) {
-                    consultas.add("update hospedajes set fecha_salida = '" + fechaSalida + "' where id_hospedaje = " + hospedaje3 + "");
+                    consultas.add("update hospedajes set fecha_salida = '" + fechaSalida2 + "' where id_hospedaje = " + hospedaje3 + "");
                 }
                 hospedajeDao = new HospedajesDAO();
                 if (hospedajeDao.updateList(consultas)) {
@@ -1425,14 +1425,14 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
 
         if (e.getSource() == gp.cboTipoPago) {
-            String valor = (String) gp.cboTipoPago.getSelectedItem();
-            if (valor == null) {
+            String valor3 = (String) gp.cboTipoPago.getSelectedItem();
+            if (valor3 == null) {
                 return;
             }
-            if (valor.equals("-- Seleccione --")) {
+            if (valor3.equals("-- Seleccione --")) {
                 return;
             }
-            String[] id = valor.split("-");
+            String[] id = valor3.split("-");
             if (id[0].trim().equals("1")) {
                 gp.lblBanco.setVisible(false);
                 gp.txtBancos.setVisible(false);
@@ -2082,16 +2082,16 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     DetalleFacturaDataSource datasource = new DetalleFacturaDataSource();
                     detallefacturaCotDao = new DetalleFacturaCotizacionDAO();
                     String opciones[] = {"Seleccione", "COPIA", "COPIA ARCHIVO", "COPIA CONTABILIDAD"};
-                    String valor = (String) JOptionPane.showInputDialog(null, "Generar Copia", "Seleccione una opción", JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
-                    if (valor == null) {
+                    String valor4 = (String) JOptionPane.showInputDialog(null, "Generar Copia", "Seleccione una opción", JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+                    if (valor4 == null) {
                         return;
                     }
-                    if (!valor.equals("Seleccione")) {
+                    if (!valor4.equals("Seleccione")) {
                         if (pr.tbFacturas.getValueAt(fila, 4).toString().equals("Anulada")) {
-                            if (!valor.equals("COPIA")) {
-                                valor += " " + pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
+                            if (!valor4.equals("COPIA")) {
+                                valor4 += " " + pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
                             } else {
-                                valor = pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
+                                valor4 = pr.tbFacturas.getValueAt(fila, 4).toString().toUpperCase();
                             }
                         }
                         String opt = "COPIA";
@@ -2099,7 +2099,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             opt = "COTIZACIÓN";
                         }
                         datasource.setListaDetalle(detallefacturaCotDao.getDetallesFacturaCotizacionListByIdFactura(idFacturaToFilter));
-                        Utils.Utils.generateReporte(Utils.Utils.getFacturaById(idFacturaToFilter), datasource, opt, valor);
+                        Utils.Utils.generateReporte(Utils.Utils.getFacturaById(idFacturaToFilter), datasource, opt, valor4);
                     } else {
                         JOptionPane.showMessageDialog(null, "¡Seleccione una opción!");
                         pr.pbtnGenerateCopia.doClick();
@@ -2181,7 +2181,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         if (e.getSource() == pr.pbtnEditCLiente) {
             try {
                 cargarClienteEdit(false);
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 System.out.println("error " + ex);
             }
         }
@@ -2189,7 +2189,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         if (e.getSource() == pr.pbtnInfo) {
             try {
                 cargarClienteEdit(true);
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 System.out.println("error " + ex);
             }
         }
@@ -2739,7 +2739,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         int descuento = Integer.parseInt(pr.lblDescuentoTotal.getText().replace(".", ""));
         factura.setSubtotal((float) subtotal);
         factura.setIva((float) iva);
-        float ajuste = Utils.Utils.ajusteFactura(total);
+        float ajuste = Utils.Utils.ajusteFactura(total, Principal.idVendedor.getText());
         factura.setTotal((float) total - ajuste);
         factura.setDescuentoTotal((float) descuento);
         switch (idtermino[0].trim()) {

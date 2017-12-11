@@ -16,9 +16,14 @@ public class Conexion {
 //                String pwd = "S1st3m4s";
 //                String usr = "expresop_user";
                 
+//                String url = "jdbc:mysql://127.0.0.1:3306/codigo_pymesapp?autoReconnect=true";
+//                String pwd = "123";
+//                String usr = "codigo";
+                
                 String url = "jdbc:mysql://127.0.0.1:3306/codigo_pymesapp?autoReconnect=true";
-                String pwd = "123";
-                String usr = "codigo";
+                String pwd = "PpY8lfp838Et3716";
+                String usr = "root";
+                
 //                if (TipoCon.equals("remota")) {
 //                String url = "jdbc:mysql://67.210.244.206:3306/codigo_pymesapp?noAccessToProcedureBodies=true&autoReconnect=true";
 //                String pwd = "P}3LdHI^+WMV";
