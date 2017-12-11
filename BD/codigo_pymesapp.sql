@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.3
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 03-10-2017 a las 13:04:46
--- Versión del servidor: 10.1.28-MariaDB
--- Versión de PHP: 5.6.30
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-12-2017 a las 11:44:40
+-- Versión del servidor: 10.1.10-MariaDB
+-- Versión de PHP: 7.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -226,7 +224,7 @@ SELECT * FROM ciudades;
 END$$
 
 CREATE DEFINER=`codigo`@`localhost` PROCEDURE `listarCotizacion` (IN `empresa` VARCHAR(15))  BEGIN
-SELECT * FROM facturas where id_empresa = empresa and id_estado_factura = 6 order by fecha DESC;
+SELECT f.*, ef.nombre FROM facturas f, estados_facturas ef where f.id_empresa = empresa and f.id_estado_factura = ef.id_estado_factura and f.id_estado_factura = 6 order by fecha DESC;
 END$$
 
 CREATE DEFINER=`codigo`@`localhost` PROCEDURE `listarEntidadesBancarias` ()  NO SQL
@@ -241,6 +239,11 @@ BEGIN
 SELECT f.*, case when (select SUM(valor) from pagos where id_factura = f.id_factura) is not null then (select SUM(valor) from pagos where id_factura = f.id_factura) else 0 end as abonos,
 case when (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) is not null then (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) else 0 end as retenciones FROM facturas f where f.id_empresa = empresa 
 and id_estado_factura <> 6 order by fecha DESC;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFacturasN2` (IN `empresa` VARCHAR(30))  NO SQL
+BEGIN
+SELECT f.*, ef.nombre FROM facturas f, estados_facturas ef where f.id_empresa = empresa and f.id_estado_factura = ef.id_estado_factura and f.id_estado_factura <> 6 order by fecha DESC;
 END$$
 
 CREATE DEFINER=`codigo`@`localhost` PROCEDURE `listarFranquicia` ()  NO SQL
@@ -1581,7 +1584,7 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `nombre_razon`, `identificacion`, `direccion`, `id_ciudad`, `correo`, `telefono1`, `telefono2`, `fax`, `celular`, `cliente`, `proveedor`, `observaciones`, `id_empresa`, `id_tipo_identificacion`, `transacion`, `id_nacionalidad`, `fecha_nacimiento`) VALUES
 (2, 'AGENCIA DE VIAJES Y TURISMO AVIATUR S.A. ', '8600000182', 'Avenida 19 No. 4 - 62', 1116, NULL, '3817111', '', '', '3817111', 1, 0, '', '51744384-1', 3, '51744384-1_12', 52, NULL),
-(3, '	ASOCIACION DE ZOOTECNISTAS DEL VALLE DEL CAUCA \"AZOOVALLE\"', '8913046670', 'CARRERA 29A # 21-51', 82, NULL, NULL, '', '', '3154853998', 1, 0, '', '51744384-1', 3, '51744384-1_12', 52, NULL),
+(3, '	ASOCIACION DE ZOOTECNISTAS DEL VALLE DEL CAUCA "AZOOVALLE"', '8913046670', 'CARRERA 29A # 21-51', 82, NULL, NULL, '', '', '3154853998', 1, 0, '', '51744384-1', 3, '51744384-1_12', 52, NULL),
 (4, 'MARIO ALBERTO GALVIS VAHOS', '8010503', 'CARRERA 71A # 9-53 ', 82, NULL, NULL, '', '', '3188640396', 1, 0, '', '51744384-1', 1, '51744384-1_12', 52, NULL),
 (7, 'EQUIPO CONTINENTAL DE CICLISMO', '9010395370', 'CARRERA 73 No C1-34', 82, NULL, '4124434', '', '', '4124434', 1, 0, '', '51744384-1', 3, '51744384-1_12', 52, NULL),
 (8, 'OLMUE COLOMBIA S.A.S.', '9003430995', 'CALLEJON VIA BOLO LA ITALIA KM. 1 N', 1087, 'info@olmue.com.co', '', '', '', '000', 1, 0, '', '51744384-1', 3, '51744384-1_16', 52, NULL),
@@ -2274,11 +2277,11 @@ CREATE TABLE `estados_facturas` (
 --
 
 INSERT INTO `estados_facturas` (`id_estado_factura`, `nombre`, `descripcion`, `transacion`) VALUES
-(1, 'Aprobada', 'Las facturas cuando se generan permanecerán en estado \"Aprobada\", si no fueron cobradas, parcialmente cobradas, anuladas o generadas como borrador. ', ''),
-(2, 'Cobrada', 'Las facturas en las cuales se les aplicó un recibo y quedaron totalmente cobradas, pasan de Estado: \"Aprobada\" a Estado: \"Cobrada\". También de Estado: \"Parcialmente Cobrada\" a Estado: \"Cobrada\".', ''),
-(3, 'Parcialmente Cobrada', 'Las facturas en las cuales se les aplicó un recibo, quedando un saldo a cobrar, pasan de Estado: \"Aprobada\" a Estado: \"Parcialmente Cobrada\". ', ''),
-(4, 'Vencida', 'Al momento de generar una factura, se tiene la opción de seleccionar el Estado \"Borrador\". Estos comprobantes borradores no generan movimientos ', ''),
-(5, 'Anulada', 'Una factura puede pasar de Estado: \"Aprobada\" o \"Cobrada\" a \"Anulada\". Esto implica que se eliminan los efectos contables de la factura, es decir, y se eliminan los movimientos que había generado.', ''),
+(1, 'Aprobada', 'Las facturas cuando se generan permanecerán en estado "Aprobada", si no fueron cobradas, parcialmente cobradas, anuladas o generadas como borrador. ', ''),
+(2, 'Cobrada', 'Las facturas en las cuales se les aplicó un recibo y quedaron totalmente cobradas, pasan de Estado: "Aprobada" a Estado: "Cobrada". También de Estado: "Parcialmente Cobrada" a Estado: "Cobrada".', ''),
+(3, 'Parcialmente Cobrada', 'Las facturas en las cuales se les aplicó un recibo, quedando un saldo a cobrar, pasan de Estado: "Aprobada" a Estado: "Parcialmente Cobrada". ', ''),
+(4, 'Vencida', 'Al momento de generar una factura, se tiene la opción de seleccionar el Estado "Borrador". Estos comprobantes borradores no generan movimientos ', ''),
+(5, 'Anulada', 'Una factura puede pasar de Estado: "Aprobada" o "Cobrada" a "Anulada". Esto implica que se eliminan los efectos contables de la factura, es decir, y se eliminan los movimientos que había generado.', ''),
 (6, 'Cotización', NULL, '');
 
 -- --------------------------------------------------------
@@ -4573,8 +4576,7 @@ ALTER TABLE `unidades_medida`
 -- AUTO_INCREMENT de la tabla `versiones_app`
 --
 ALTER TABLE `versiones_app`
-  MODIFY `id_version` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
-
+  MODIFY `id_version` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

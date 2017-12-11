@@ -840,10 +840,10 @@ public class Utils {
         List<Facturas> list = new ArrayList<>();
         try {
             sql = "select * from facturas f" + Params;
-            System.out.println("sql fa = "+sql);
+            System.out.println("sql fa = " + sql);
             pstm = cn.prepareStatement(sql);
             rs = pstm.executeQuery();
-            while (rs.next()) {                   
+            while (rs.next()) {
                 Facturas f = new Facturas();
                 f.setIdFactura(rs.getString(1));
                 f.setFecha(rs.getDate(2));
@@ -860,7 +860,7 @@ public class Utils {
                 f.setNota(rs.getString(13));
                 f.setTransacion(rs.getString(14));
                 f.getEstado().setNombre(rs.getString(16));
-                list.add(f);                  
+                list.add(f);
             }
 
         } catch (SQLException e) {
@@ -1625,18 +1625,33 @@ public class Utils {
     }
 
     public static ArrayList<String> MoreinfoFactura(String idFactura, String empresa) throws SQLException {
-        ArrayList<String> datos = new ArrayList();            
+        ArrayList<String> datos = new ArrayList();
         String sqlq = "SELECT case when (select SUM(valor) from pagos where id_factura = f.id_factura) is not null "
                 + "then (select SUM(valor) from pagos where id_factura = f.id_factura) else 0 end as abonos,"
                 + " case when (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) is not null "
                 + " then (select SUM(valor) from retenciones_pagos where id_factura = f.id_factura) else 0 end as retenciones FROM facturas f "
-                + "where f.id_empresa = '"+empresa+"' and f.id_factura = '"+idFactura+"' and id_estado_factura <> 6 order by fecha DESC";
+                + "where f.id_empresa = '" + empresa + "' and f.id_factura = '" + idFactura + "' and id_estado_factura <> 6 order by fecha DESC";
         pstm = cn.prepareStatement(sqlq);
         rs = pstm.executeQuery();
-        if (rs.next()) {            
-          datos.add(Float.toString(rs.getFloat(1))+","+Float.toString(rs.getFloat(2)));
+        if (rs.next()) {
+            datos.add(Float.toString(rs.getFloat(1)) + "," + Float.toString(rs.getFloat(2)));
         }
         return datos;
+    }
+
+    public static int getSaldoByFatura(String factura) {
+        int saldo = 0;
+        String sqls = "select SUM(valor) from pagos where id_factura = '" + factura + "'";
+        try {
+            pstm = cn.prepareStatement(sqls);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                saldo = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("eror " + e);
+        }
+        return saldo;
     }
 
 }

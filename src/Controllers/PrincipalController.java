@@ -109,7 +109,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  * @author Innova
  */
 public final class PrincipalController implements ActionListener, KeyListener, FocusListener, MouseListener, ChangeListener {
-    
+
     ArrayList<TiposDeHabitacion> tiposList = new ArrayList();
     private final ModalItem ps = getModalItem.getModalItem();
     private final Principal pr = GetPrincipal.getPrincipal();
@@ -198,23 +198,23 @@ public final class PrincipalController implements ActionListener, KeyListener, F
     String fechaSalida = "";
     boolean fireReport = true;
     String datosPago = "";
-    
+
     ArrayList<RetencionesPagos> listRetencionesPagos = new ArrayList();
     int countAction = 0;
     JFileChooser FileChooser = new JFileChooser();
     String foto = "";
     ImageIcon ii = null;
     String NombreArchivo = "";
-    
+
     UsuariosApp ua;
     UsuariosAppDAO usersDao;
     ModulosLicenciasDAO mdLicencia;
     private int intentosLogin = 0;
-    
+
     public PrincipalController() throws SQLException {
         Loader();
     }
-    
+
     private void Loader() throws SQLException {
         ah.chkEstadiaU.addActionListener(this);
         ah.chkHabitacionU.addActionListener(this);
@@ -383,7 +383,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
 //    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == pr.btnCancelar) {
             System.exit(0);
         }
@@ -394,19 +394,19 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             pr.txtPass.transferFocus();
         }
         if (e.getSource() == pr.btnLogin) {
-            
+
             if (pr.txtUser.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "El campo usuario es obligatorio..!");
                 pr.txtUser.requestFocus();
                 return;
             }
-            
+
             if (Arrays.toString(pr.txtPass.getPassword()).equals("[]")) {
                 JOptionPane.showMessageDialog(null, "El campo contraseña es obligatorio..!");
                 pr.txtPass.requestFocus();
                 return;
             }
-            
+
             try {
                 usersDao = new UsuariosAppDAO();
                 ua = usersDao.getUsuariosApp(pr.txtUser.getText(), Arrays.toString(pr.txtPass.getPassword()));
@@ -483,7 +483,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             pr.btnOlySave.setEnabled(false);
                             pr.pbtnGeneratePago.setEnabled(false);
                             break;
-                        
+
                         case 2:
                             System.out.println("soy Supervisor");
                             pr.mnuGenerarFactura.setEnabled(true);
@@ -512,7 +512,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                             pr.btnOlySave.setEnabled(false);
                             pr.pbtnGeneratePago.setEnabled(false);
                             break;
-                        
+
                         case 3:
                             System.out.println("soy Operario");
                             pr.mnuGenerarFactura.setEnabled(true);
@@ -551,9 +551,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             } catch (SQLException ex) {
                 System.out.println("error " + ex);
             }
-            
+
         }
-        
+
         if (e.getSource() == emp.btnGuardar) {
             try {
                 if (Utils.Utils.updateLogoEmpresa(foto, emp.idEmpresa.getText())) {
@@ -570,15 +570,15 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             } catch (FileNotFoundException ex) {
                 System.out.println("error " + ex);
             }
-            
+
         }
-        
+
         if (e.getSource() == pr.mnuEmpresas) {
             cargarEmpresas();
             emp.setLocationRelativeTo(null);
             emp.setVisible(true);
         }
-        
+
         if (e.getSource() == emp.editarLogo) {
             int fila = emp.tblEmpresas.getSelectedRow();
             if (fila >= 0) {
@@ -588,7 +588,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un Cliente!");
             }
         }
-        
+
         if (e.getSource() == ah.chkEstadiaU) {
             if (ah.chkEstadiaU.isSelected()) {
                 ah.lblDias.setVisible(true);
@@ -598,7 +598,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ah.spnEstadia.setVisible(false);
             }
         }
-        
+
         if (e.getSource() == ah.chkHabitacionU) {
             if (ah.chkHabitacionU.isSelected()) {
                 ah.lblHabitacion.setVisible(true);
@@ -608,7 +608,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ah.cboHabitacionesDisponibles.setVisible(false);
             }
         }
-        
+
         if (e.getSource() == pr.pbtnDeleteCliente) {
             int fila = pr.tblUsers.getSelectedRow();
             if (fila >= 0) {
@@ -632,12 +632,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     }
                 } else {
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un Cliente!");
             }
         }
-        
+
         if (e.getSource() == pr.btnBuscarFiltroCliente) {
             String and = "";
             Object[] campos = {pr.txtCriterioBusqueda, pr.cboCriterioBusqueda};
@@ -657,7 +657,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.btnTodosClientes) {
             try {
                 cargarUsuarios("clientes", "");
@@ -667,7 +667,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.pbtnPagosRealizados) {
             int fila = pr.tbFacturas.getSelectedRow();
             if (fila >= 0) {
@@ -681,7 +681,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pr.pbtnVerPagosHospedaje) {
             int fila = pr.tblListaHospedaje.getSelectedRow();
             if (fila >= 0) {
@@ -696,7 +696,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pg.pbtnPrint) {
             int fila = pg.tblPagosRealizados.getSelectedRow();
             if (fila >= 0) {
@@ -710,7 +710,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pr.btnCancel) {
             limpiarFactura();
             isHospedaje = false;
@@ -733,7 +733,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             }
         }
-        
+
         if (e.getSource() == pr.pbtnGenerarPago) {
             int fila1 = pr.tblListaHospedaje.getSelectedRow();
             if (fila1 >= 0) {
@@ -786,7 +786,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pr.mnuReporteFacturacion) {
             mrf.jPanel1.setVisible(false);
             mrf.txtIdCliente.setVisible(false);
@@ -794,12 +794,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             mrf.setLocationRelativeTo(null);
             mrf.setVisible(true);
         }
-        
+
         if (e.getSource() == pr.mnuIngresosDiarios) {
             ri.setLocationRelativeTo(null);
             ri.setVisible(true);
         }
-        
+
         if (e.getSource() == mrf.btnGererarReporteFacturacion) {
             Object[] campos = {mrf.cldFechaIni, mrf.cldFechaFin, mrf.chkDetallado};
             if (validarCampos(campos)) {
@@ -832,7 +832,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == mrf.btnCancelarModalReporteF) {
             mrf.cldFechaIni.setDate(null);
             mrf.cldFechaFin.setDate(null);
@@ -840,7 +840,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             mrf.chkDetallado.setSelected(false);
             mrf.dispose();
         }
-        
+
         if (e.getSource() == ri.btnGenerar) {
             if (ri.cldFechaini.getDate() == null) {
                 JOptionPane.showMessageDialog(null, "¡Seleccione Rango de fechas!");
@@ -861,13 +861,13 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == ri.btnCancelar) {
             ri.cldFechaini.setDate(null);
             ri.cldFechafin.setDate(null);
             ri.dispose();
         }
-        
+
         if (e.getSource() == pr.mnuTodos) {
             try {
                 cargarUsuarios("", "");
@@ -876,7 +876,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             ocultarPaneles("mnuTodos");
         }
-        
+
         if (e.getSource() == pr.mnuClientes) {
             try {
                 cargarUsuarios("clientes", "");
@@ -885,7 +885,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             ocultarPaneles("mnuTodos");
         }
-        
+
         if (e.getSource() == pr.mnuProveedores) {
             try {
                 cargarUsuarios("proveedores", "");
@@ -894,7 +894,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             ocultarPaneles("mnuTodos");
         }
-        
+
         if (e.getSource() == pr.mnuHospedajeActivo) {
             try {
                 Utils.Utils.generateReporteHospedaje(Principal.idVendedor.getText());
@@ -902,7 +902,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == th.cboTipoHospedaje) {
             String tipoHabitacion = (String) (th.cboTipoHospedaje.getSelectedItem());
             if (tipoHabitacion == null) {
@@ -917,18 +917,18 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             String array[] = tipoHabitacion.split("-");
             int idTipoHabitacion = Integer.parseInt(array[0]);
             TiposDeHabitacion tipo = tiposList.get(idTipoHabitacion - 1);
-            
+
             th.txtCostoPersona.setText(formateador.format(tipo.getCostoPersona()));
             th.txtCostoPareja.setText(formateador.format(tipo.getCostoPareja()));
             th.txtCostoAdicional.setText(formateador.format(tipo.getCostoPersonaAdicional()));
         }
-        
+
         if (e.getSource() == th.btnCancelarTarifas) {
             Object[] campos = {th.txtCostoAdicional, th.txtCostoPareja, th.txtCostoPersona, th.cboTipoHospedaje};
             cleanCampos(campos);
             th.dispose();
         }
-        
+
         if (e.getSource() == th.btnActualizarTarifas) {
             Object[] campos = {th.txtCostoAdicional, th.txtCostoPareja, th.txtCostoPersona, th.cboTipoHospedaje};
             if (validarCampos(campos)) {
@@ -953,7 +953,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.mnuTarifasHospedaje) {
             try {
                 cargarTipoHabitaciones();
@@ -962,11 +962,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);;
             }
         }
-        
+
         if (e.getSource() == pr.mnuSalir) {
             cerrar();
         }
-        
+
         if (e.getSource() == gr.cboTipoRetencion) {
             String val = (String) gr.cboTipoRetencion.getSelectedItem();
             if (val == null) {
@@ -987,9 +987,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             String newSubtotal = subtotal.replace(".", "");
             valor = Float.parseFloat(newSubtotal) * val2;
             gr.lblValorRetencion.setText(formateador.format(valor));
-            
+
         }
-        
+
         if (e.getSource() == pr.btnRetencion) {
             if (!detalleFacturaItems.isEmpty()) {
                 gr.setLocationRelativeTo(null);
@@ -998,7 +998,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡No puedes aplicar retención a una factura sin valor!");
             }
         }
-        
+
         if (e.getSource() == gr.btnAddRetencion) {
             String val = (String) gr.cboTipoRetencion.getSelectedItem();
             if (val.equals("-- Seleccione --")) {
@@ -1018,7 +1018,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             }
         }
-        
+
         if (e.getSource() == pr.cboFiltroHospedaje) {
             if (pr.cboFiltroHospedaje.getSelectedItem().equals("Sin Facturar") || pr.cboFiltroHospedaje.getSelectedItem().equals("Anulada")) {
                 pr.pbtnEstadoCuenta.setEnabled(true);
@@ -1032,14 +1032,14 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             cargarHospedajes(pr.cboFiltroHospedaje.getSelectedItem().toString(), pr.txtFiltrroIdCliente.getText());
         }
-        
+
         if (e.getSource() == gr.btnCancelar) {
             id_retencion = 0;
             valor = 0;
             gr.lblValorRetencion.setText("");
             gr.dispose();
         }
-        
+
         if (e.getSource() == pr.pbtnRemoveItem) {
             int fila = pr.tblDetallefactura.getSelectedRow();
             if (fila >= 0) {
@@ -1054,7 +1054,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un ítem!");
             }
         }
-        
+
         if (e.getSource() == rh.btnCancelarHospedaje) {
             Object[] campos = {rh.txtHuesped, rh.chkAmericana, rh.chkChalet, Principal.lblCliente, rh.cboMotivo};
             cleanCampos(campos);
@@ -1063,7 +1063,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             rh.txtHuesped.setEditable(true);
             rh.dispose();
         }
-        
+
         if (e.getSource() == mc.cboNacionalidad) {
             String v = (String) mc.cboNacionalidad.getSelectedItem();
             if (v == null) {
@@ -1084,7 +1084,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             }
         }
-        
+
         if (e.getSource() == pr.pbtnEstadoCuenta) {
             pr.btnSaveAddPay.setEnabled(true);
             pr.btnSaveAndNew.setEnabled(true);
@@ -1097,7 +1097,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             limpiarFactura();
             facturarHospedaje();
         }
-        
+
         if (e.getSource() == pr.pbtnCancelarHospedaje) {
             int fila1 = pr.tblListaHospedaje.getSelectedRow();
             if (fila1 >= 0) {
@@ -1136,12 +1136,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 } catch (SQLException ex) {
                     System.out.println("error " + ex);
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pr.pbtnActualizarHospedaje) {
             int fila2 = pr.tblListaHospedaje.getSelectedRow();
             if (fila2 >= 0) {
@@ -1180,13 +1180,13 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == ah.btnCancelarActualizacion) {
             Object[] campos = {ah.cboHabitacionesDisponibles};
             cleanCampos(campos);
             ah.dispose();
         }
-        
+
         if (e.getSource() == ah.btnActualizarHospedaje) {
             try {
                 int fila3 = pr.tblListaHospedaje.getSelectedRow();
@@ -1237,7 +1237,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.mnuItem) {
             Object[] numeros = {ps.txtCostoUnidad, ps.txtPrecioVenta};
             SLetra(numeros, false);
@@ -1256,7 +1256,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             ps.txtPrecioVenta.setText("0");
             ps.setVisible(true);
         }
-        
+
         if (e.getSource() == ps.btnCancelarItem) {
             Object[] campos = {ps.txtCostoUnidad, ps.txtNombreItem, ps.txtPrecioVenta, ps.txtReferenciaItem, ps.areaDescripcion, ps.cboGarantia, ps.spnStock, ps.cboUnidad, ps.chkProducto};
             cleanCampos(campos);
@@ -1270,7 +1270,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             ps.txtPrecioVenta.setText("0");
             ps.dispose();
         }
-        
+
         if (e.getSource() == mrf.chkDetallado) {
             Object[] campos = {mrf.txtIdCliente};
             cleanCampos(campos);
@@ -1284,9 +1284,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 mrf.cboEstadoFactura.setVisible(true);
             }
         }
-        
+
         if (e.getSource() == ps.chkProducto) {
-            
+
             Object[] campos = {ps.spnStock, ps.cboUnidad};
             cleanCampos(campos);
             if (!ps.chkProducto.isSelected()) {
@@ -1307,9 +1307,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ps.txtPrecioVenta.setEnabled(true);
             }
         }
-        
+
         if (e.getSource() == ps.btnGuardarItem) {
-            
+
             if (!ps.chkProducto.isSelected()) {
                 Object[] campos = {ps.txtCostoUnidad, ps.txtNombreItem, ps.txtPrecioVenta, ps.txtReferenciaItem, ps.cboGarantia};
                 if (validarCampos(campos)) {
@@ -1332,12 +1332,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ps.lblStock.setVisible(false);
                 ps.lblUnidad.setVisible(false);
                 ps.dispose();
-                
+
             } catch (SQLException ex) {
                 System.out.println("error" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.cboTipoFiltro) {
             String filtro = (String) pr.cboTipoFiltro.getSelectedItem();
             if (filtro == null) {
@@ -1411,19 +1411,19 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     break;
             }
         }
-        
+
         if (e.getSource() == mc.btnCancelarCliente) {
             Object[] campos = {mc.txtCelular, mc.txtCiudad, mc.txtCorreo, mc.txtDireccion, mc.txtDocumento, mc.txtFax, mc.txtNombreRazon,
                 mc.txtTelefono, mc.txtTelefono2, mc.cboTipoId, mc.chkProveedor, mc.cboNacionalidad, mc.cldNacimiento};
             cleanCampos(campos);
             mc.dispose();
-            
+
         }
-        
+
         if (e.getSource() == pr.mnuHospedaje) {
             cargarHospedajes("", "");
         }
-        
+
         if (e.getSource() == gp.cboTipoPago) {
             String valor = (String) gp.cboTipoPago.getSelectedItem();
             if (valor == null) {
@@ -1460,7 +1460,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 gp.lblCheque.setVisible(false);
             }
         }
-        
+
         if (e.getSource() == gp.btnGuardar) {
             Object[] campos = {gp.txtValor, gp.cboTipoPago, gp.taObservaciones};
             if (validarCampos(campos)) {
@@ -1490,7 +1490,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             }
         }
-        
+
         if (e.getSource() == gp.btnCancelar) {
             try {
                 Object[] campos = {gp.txtBancos, gp.txtCheque, gp.txtValor, gp.txtVoucher, gp.txtCuatroDigitos};
@@ -1507,7 +1507,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error al mostrar la factura " + ex);
             }
         }
-        
+
         if (e.getSource() == rh.btnBuscarHabitacion) {
             if (!rh.chkAmericana.getState() && !rh.chkChalet.getState()) {
                 JOptionPane.showMessageDialog(null, "¡Debe seleccionar un tipo de habitación!");
@@ -1515,7 +1515,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             cargarTblHabitaciones();
         }
-        
+
         if (e.getSource() == rh.btnRegistrarHuesped) {
             Object[] campos = {rh.txtHuesped, rh.cboMotivo};
             if (validarCampos(campos)) {
@@ -1539,7 +1539,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             cargarHospedajes("", "");
             rh.dispose();
         }
-        
+
         if (e.getSource() == pr.btnRegistrarHospedaje) {
             try {
                 cargarMotivos();
@@ -1549,18 +1549,18 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.mnuCambiarClave) {
             cc.setVisible(true);
         }
-        
+
         if (e.getSource() == cc.btnCancelarCambioClave) {
             cc.dispose();
             cc.txtClaveActual.setText("");
             cc.txtNuevaClave.setText("");
             cc.txtNuevaClave2.setText("");
         }
-        
+
         if (e.getSource() == cc.btnActualizarClave) {
             try {
                 Object[] campos = {cc.txtClaveActual, cc.txtNuevaClave, cc.txtNuevaClave2};
@@ -1586,7 +1586,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             actualizarClave();
         }
-        
+
         if (e.getSource() == pr.mnuNumeracion) {
             try {
                 cargarTiposImprimibles();
@@ -1595,7 +1595,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + e);
             }
         }
-        
+
         if (e.getSource() == mn.cmbImprimible) {
             if (mn.cmbImprimible.getSelectedItem() == null) {
                 return;
@@ -1625,7 +1625,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 mn.spnConsecutivo.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(99999999), Integer.valueOf(1)));
             }
         }
-        
+
         if (e.getSource() == pr.mnuResolucion) {
             try {
                 if (Utils.Utils.getExisteResolucion(Principal.idVendedor.getText())) {
@@ -1643,7 +1643,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("Error consultando " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.mnuVincularUsuarios) {
             try {
                 cargarRoles();
@@ -1653,7 +1653,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("Error consultando " + ex);
             }
         }
-        
+
         if (e.getSource() == mn.btnGuardarConsecutivo) {
             Object[] campos = {mn.cmbImprimible, mn.spnConsecutivo};
             if (validarCampos(campos)) {
@@ -1662,11 +1662,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             guardarConsecutivo();
         }
-        
+
         if (e.getSource() == mn.btnCancelarImprimible) {
             mn.dispose();
         }
-        
+
         if (e.getSource() == vu.btnGuardarUsuario) {
             Object[] campos = {vu.txtDocumento, vu.txtNombres, vu.txtApellidos, vu.cmbTipoDocumento, vu.cmbRol, vu.txtClave1, vu.txtClave2};
             if (validarCampos(campos)) {
@@ -1684,7 +1684,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             guardarVinculacionUsuario();
         }
-        
+
         if (e.getSource() == rf.btnGuardarResolucion) {
             Object[] campos = {rf.txtResolucion, rf.txtInicial, rf.txtFinal, rf.cldFechaResolucion, rf.cboTipoResolucion};
             if (validarCampos(campos)) {
@@ -1698,7 +1698,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
             guardarResolucion();
         }
-        
+
         if (e.getSource() == pr.btnFindCliente || e.getSource() == rh.btnBuscarCliente || e.getSource() == pr.btnNewContacto) {
             getModalClienteController.ClienteController();
             mc.cboTipoId.setEnabled(true);
@@ -1723,7 +1723,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             cleanCampos(campos);
             mc.setVisible(true);
         }
-        
+
         if (e.getSource() == pr.mnuGenerarFactura) {
             isHospedaje = false;
             id_hospedajeU = 0;
@@ -1750,7 +1750,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ocultarPaneles("mnuFacturacion");
             }
         }
-        
+
         if (e.getSource() == pr.mnuCotizaciones) {
             isHospedaje = false;
             id_hospedajeU = 0;
@@ -1775,7 +1775,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ocultarPaneles("mnuFacturacion");
             }
         }
-        
+
         if (e.getSource() == pr.btnNewFactura) {
             if (pr.btnNewFactura.getText().equals("Nueva Factura")) {
                 pr.btnSaveAddPay.setEnabled(true);
@@ -1788,7 +1788,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 ocultarPaneles("btnNewFactura");
             }
         }
-        
+
         if (e.getSource() == SelectTipoHospedaje.cboTiposHospedajes) {
             pr.txtNota.setText("");
             String option = (String) SelectTipoHospedaje.cboTiposHospedajes.getSelectedItem();
@@ -1812,7 +1812,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == SelectTipoHospedaje.btnAceptHabitacion) {
             String option = (String) SelectTipoHospedaje.cboTiposHospedajes.getSelectedItem();
             if (option.equals("-- Seleccione --")) {
@@ -1839,14 +1839,14 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             valorProd = costoPesronas;
             st.dispose();
         }
-        
+
         if (e.getSource() == SelectTipoHospedaje.btnCancelHabitacion) {
             SelectTipoHospedaje.spcantS.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(10.0f), Float.valueOf(1.0f)));
             SelectTipoHospedaje.lblTotal.setText("0");
             pr.txtNota.setText("");
             st.dispose();
         }
-        
+
         if (e.getSource() == vu.btnCancelarVinculacion) {
             vu.txtDocumento.setText("");
             vu.txtNombres.setText("");
@@ -1859,7 +1859,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             String[] optionSelected2 = option2.split("-");
             vu.dispose();
         }
-        
+
         if (e.getSource() == rf.btnCancelarResolucion) {
             rf.txtResolucion.setText("");
             rf.txtInicial.setText("");
@@ -1869,7 +1869,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             String[] optionSelected = option.split("-");
             rf.dispose();
         }
-        
+
         if (e.getSource() == pr.cboProductoServ) {
             String prodServ = (String) pr.cboProductoServ.getSelectedItem();
             if (prodServ.equals("-- Seleccione --") || prodServ == null) {
@@ -1907,7 +1907,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 } catch (SQLException ex) {
                     System.out.println("error" + ex);
                 }
-                
+
             } else if (Integer.parseInt(datos[3]) == 0) {
                 pr.txtCostoServicio.setEditable(true);
                 pr.txtCostoServicio.setValue(null);
@@ -1924,10 +1924,10 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 pr.txtCostoServicio.requestFocus();
                 pr.spCantidad2.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(1.0f), Float.valueOf(1.0f), Float.valueOf(Float.parseFloat(datos[2])), Float.valueOf(1.0f)));
                 pr.spCantidad2.setEnabled(true);
-                
+
             }
         }
-        
+
         if (e.getSource() == pr.cboTerminoDePago) {
             String termino = (String) pr.cboTerminoDePago.getSelectedItem();
             if (termino == null) {
@@ -1945,7 +1945,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 pr.clVencimientomanual.setVisible(false);
             }
         }
-        
+
         if (e.getSource() == pr.btnAddDetalle) {
             Object[] campos = {pr.cboProductoServ, pr.txtCostoServicio, pr.cboImpuesto, pr.spCantidad2, pr.cboImpuesto};
             if (validarCampos(campos)) {
@@ -1979,7 +1979,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.btnPreview) {
             try {
                 getDatosFactura(4, "btnPreview");
@@ -1988,7 +1988,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error btnPreview" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.btnSaveAddPay) {
             try {
                 getDatosFactura(1, "btnSaveAddPay");
@@ -2010,7 +2010,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error btnOlySave" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.btnCotizar) {
             try {
                 getDatosFactura(6, "btnCotizar");
@@ -2018,7 +2018,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error btnSaveAddPay" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.btnFindBill) {
             try {
                 String sql = "";
@@ -2073,7 +2073,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error btnSaveAddPay" + ex);
             }
         }
-        
+
         if (e.getSource() == pr.pbtnGenerateCopia) {
             try {
                 int fila = pr.tbFacturas.getSelectedRow();
@@ -2109,39 +2109,44 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 } else {
                     JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
                 }
-                
+
             } catch (SQLException | JRException ex) {
                 System.out.println("error linea 867 = " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.pbtnGeneratePago) {
             Object[] numeros = {gp.txtValor, gp.txtCuatroDigitos};
             SLetra(numeros, false);
             int fila = pr.tbFacturas.getSelectedRow();
             if (fila >= 0) {
-                if (pr.tbFacturas.getValueAt(fila, 7).toString().equals("Cotización")) {
+
+                int restSaldo = (Integer.parseInt(pr.tbFacturas.getValueAt(fila, 1).toString().replace(".", "")) - Utils.Utils.getSaldoByFatura(pr.tbFacturas.getValueAt(fila, 0).toString()));
+                System.out.println("saldo = " + restSaldo);
+                if (pr.tbFacturas.getValueAt(fila, 4).toString().equals("Cotización")) {
                     JOptionPane.showMessageDialog(null, "¡No puedes hacer pagos a una cotización!");
-                } else if (pr.tbFacturas.getValueAt(fila, 6).toString().equals("0")) {
+                } else if (pr.tbFacturas.getValueAt(fila, 4).toString().equals("Anulada")) {
+                    JOptionPane.showMessageDialog(null, "¡Factura anulada..!");
+                } else if (restSaldo == 0) {
                     JOptionPane.showMessageDialog(null, "¡Factura no presenta saldo!");
                 } else {
                     try {
                         fireReport = false;
                         String idFacturaToFilter = pr.tbFacturas.getValueAt(fila, 0).toString();
                         factura = Utils.Utils.getFacturaById(idFacturaToFilter);
-                        String saldo = pr.tbFacturas.getValueAt(fila, 6).toString();
+                        String saldo = Integer.toString(restSaldo);
                         gp.txtTotalAPagar.setText(saldo);
                         gp.setLocationRelativeTo(null);
                         gp.setVisible(true);
                     } catch (SQLException ex) {
-                        System.out.println("error linea 867 = " + ex);
+                        System.out.println("error linea 2136 = " + ex);
                     }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == pr.pbtnAnulateFactura) {
             int fila = pr.tbFacturas.getSelectedRow();
             if (fila >= 0) {
@@ -2152,7 +2157,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
             }
         }
-        
+
         if (e.getSource() == af.btnGuardarAnulacion) {
             if (af.taConcepto.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
@@ -2164,15 +2169,15 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     System.out.println("error " + ex);
                 }
             }
-            
+
         }
-        
+
         if (e.getSource() == af.btnCancelarAnulacion) {
             af.idfactura.setText("");
             af.taConcepto.setText("");
             af.dispose();
         }
-        
+
         if (e.getSource() == pr.pbtnEditCLiente) {
             try {
                 cargarClienteEdit(false);
@@ -2180,7 +2185,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
         if (e.getSource() == pr.pbtnInfo) {
             try {
                 cargarClienteEdit(true);
@@ -2188,20 +2193,20 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
     }
 
     // fin action performed
     @Override
     public void keyTyped(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
-    
+
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getSource() == pr.tblDetallefactura) {
@@ -2277,7 +2282,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
         }
     }
-    
+
     private void cargarTiposIdMC() throws SQLException {
         mc.cboTipoId.removeAllItems();
         vu.cmbTipoDocumento.removeAllItems();
@@ -2293,7 +2298,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         tipoDao = null;
         t = null;
     }
-    
+
     private void cargarTiposId2() throws SQLException {
         vu.cmbTipoDocumento.removeAllItems();
         tipoDao = new TiposDeIdentificacionDAO();
@@ -2305,7 +2310,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         tipoDao = null;
     }
-    
+
     private void cargarTiposResolucion() throws SQLException {
         rf.cboTipoResolucion.removeAllItems();
         tiposResolucionDao = new TiposResolucionesDAO();
@@ -2317,7 +2322,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         tiposResolucionDao = null;
     }
-    
+
     private void cargarRoles() throws SQLException {
         vu.cmbRol.removeAllItems();
         rolesDao = new RolesDAO();
@@ -2329,7 +2334,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         tiposResolucionDao = null;
     }
-    
+
     private void cargarTiposImprimibles() throws SQLException {
         mn.cmbImprimible.removeAllItems();
         imprimiblesDao = new TiposImprimiblesDAO();
@@ -2341,9 +2346,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         tiposResolucionDao = null;
     }
-    
+
     private void cargarTipoHabitaciones() throws SQLException {
-        
+
         th.cboTipoHospedaje.removeAllItems();
         tipoHabitacionDao = new TiposDeHabitacionDAO();
         tiposList.clear();
@@ -2356,7 +2361,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         tipoHabitacionDao = null;
     }
-    
+
     public void cargarCiudades() throws SQLException {
         ciudadDao = new CiudadesDAO();
         mc.txtCiudad.removeAllItems();
@@ -2368,7 +2373,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         AutoCompleteDecorator.decorate(mc.txtCiudad);
     }
-    
+
     public void cargarHabitacionesU() throws SQLException {
         habitacionDao = new HabitacionesDAO();
         ah.cboHabitacionesDisponibles.removeAllItems();
@@ -2473,7 +2478,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             pr.cboImpuesto.addItem(tipoId.getIdImpuesto() + " -  " + tipoId.getDetalle());
         }
     }
-    
+
     public void ocultarPaneles(String boton) {
         pr.pnHospedaje.setVisible(false);
         pr.pnListFacturas.setVisible(false);
@@ -2518,7 +2523,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 break;
         }
     }
-    
+
     public void addDetalleFactura(int idProductoServicio, float cantidad, String idFactura, float Impuesto, float valor, String nomprod, float descuento, float subtotal, int idImpuesto, String unidaMedida) throws SQLException {
 //        detalleFacturaItems.clear();
         DetalleFacturaCotizacion d = new DetalleFacturaCotizacion(0, idProductoServicio, cantidad, idFactura, Impuesto, valor, nomprod, descuento, subtotal, idImpuesto, unidaMedida);
@@ -2526,7 +2531,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         d = null;
         cargarDetallaFatutra(-1, 0, false);
     }
-    
+
     public void cargarDetallaFatutra(int itemUpdate, float newCant, boolean descuento) throws SQLException {
         String Titulos[] = {"Cantidad", "Item", "Venta Unidad", "Descuento", "Subtotal", "Impuesto", "keyItem"};
         modelo = new DefaultTableModel(null, Titulos) {
@@ -2592,28 +2597,28 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.tblDetallefactura.getColumnModel().getColumn(6).setPreferredWidth(0);
         pr.tblDetallefactura.setModel(modelo);
     }
-    
+
     @Override
     public void focusGained(FocusEvent e) {
-        
+
     }
-    
+
     @Override
     public void focusLost(FocusEvent e) {
-        
+
         if (e.getSource() == ps.txtCostoUnidad && !ps.txtCostoUnidad.getText().equals("")) {
-            
+
             String valcu = formateador.format((Integer.parseInt(ps.txtCostoUnidad.getText())));
             ps.txtCostoUnidad.setText(valcu);
-            
+
         }
         if (e.getSource() == ps.txtPrecioVenta && !ps.txtPrecioVenta.getText().equals("")) {
             String valcv = formateador.format(Integer.parseInt(ps.txtPrecioVenta.getText()));
             ps.txtPrecioVenta.setText(valcv);
         }
-        
+
     }
-    
+
     @Override
     public void stateChanged(ChangeEvent e) {
         if (e.getSource() == pr.spCantidad2) {
@@ -2652,18 +2657,18 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
         }
     }
-    
+
     public Facturas getFactura() {
         if (factura == null) {
             factura = new Facturas();
         }
         return factura;
     }
-    
+
     public void setFactura(Facturas factura) {
         this.factura = factura;
     }
-    
+
     private void getDatosFactura(int estadoFactura, String btnAction) throws SQLException, JRException {
         String cliente = (String) Principal.lblCliente.getSelectedItem();
         String[] identificacionCliente = cliente.split(" ");
@@ -2788,7 +2793,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 break;
         }
     }
-    
+
     public boolean validarCampos(Object campos[]) {
         int countErrors = 0;
         for (Object componente : campos) {
@@ -2849,7 +2854,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         return countErrors > 0;
     }
-    
+
     public Date sumarRestarDiasFecha(Date fecha, int dom, int diaMes) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha); // Configuramos la fecha que se recibe
@@ -2860,7 +2865,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
     }
-    
+
     private void cleanDetalle() {
         pr.spCantidad2.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(1.0f), Float.valueOf(1.0f), Float.valueOf(10.0f), Float.valueOf(1.0f)));
         pr.spCantidad2.setEnabled(false);
@@ -2869,12 +2874,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.txtCostoServicio.setText("");
         pr.txtDescuento.setText("");
     }
-    
+
     private void saveFactura(int partialPay, boolean isHospedaje, int id_hospedajeU) {
-        
+
         Object[] numeros = {gp.txtValor, gp.txtCuatroDigitos};
         SLetra(numeros, false);
-        
+
         switch (partialPay) {
             case 0:
                 try {
@@ -3092,7 +3097,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 break;
         }
     }
-    
+
     private void guardarResolucion() {
         try {
             Utils.Utils.desactivarResolucion(Principal.idVendedor.getText());
@@ -3115,7 +3120,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     private void guardarVinculacionUsuario() {
         try {
             usuariosAppDao = new UsuariosAppDAO();
@@ -3139,7 +3144,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     private void guardarConsecutivo() {
         try {
             consecutivoImprimiblesDao = new ConsecutivosImprimiblesDAO();
@@ -3158,7 +3163,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     private void actualizarClave() {
         try {
             boolean correcto = Utils.Utils.actualizarClave(Principal.idUsuarioLog.getText(), Arrays.toString(cc.txtNuevaClave.getPassword()));
@@ -3172,18 +3177,18 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     private void addFilter() {
         FileChooser.setFileFilter(new FileNameExtensionFilter("Imagen (*.PNG)", "png"));
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == rh.tblHabitaciones) {
             int fila = rh.tblHabitaciones.getSelectedRow();
             registro = Integer.parseInt(rh.tblHabitaciones.getValueAt(fila, 0).toString());
         }
-        
+
         if (e.getSource() == pr.tbFacturas) {
             int fila = pr.tbFacturas.getSelectedRow();
             int column = pr.tbFacturas.getSelectedColumn();
@@ -3198,9 +3203,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 mi.setLocationRelativeTo(null);
                 mi.setVisible(true);
             }
-            
+
         }
-        
+
         if (e.getSource() == emp.imagen) {
             countAction++;
             File archivo;
@@ -3223,32 +3228,32 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                     JOptionPane.showMessageDialog(null, "Elija un formato valido");
                 }
             } else {
-                
+
             }
         }
-        
+
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
-    
+
     private void registrarhuesped() {
         Date fechaSalida = null;
         try {
@@ -3288,7 +3293,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     private void addPay(boolean hospedaje, int cliente, int idH) {
         Object[] campos = null;
         String tipopago = (String) gp.cboTipoPago.getSelectedItem();
@@ -3428,9 +3433,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 System.out.println("error " + ex);
             }
         }
-        
+
     }
-    
+
     private void cleanObjects(Object objects[], Object arrays[]) {
         if (objects.length > 0) {
             for (Object obj : objects) {
@@ -3444,9 +3449,9 @@ public final class PrincipalController implements ActionListener, KeyListener, F
                 }
             }
         }
-        
+
     }
-    
+
     public void cleanCampos(Object campos[]) {
         for (Object componente : campos) {
             if (componente instanceof JTextArea) {
@@ -3488,12 +3493,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             }
         }
     }
-    
+
     public void cargarTablaFactura(String dato, boolean isfactura) throws SQLException {
         pr.tbFacturas.setDefaultRenderer(Object.class, new RenderTable());
-        
+
         JButton btnMoreInfo = new JButton("Mas Info");
-        
+
         facturaDao = new FacturasDAO();
         String Factura = "Id Cotización";
         if (isfactura) {
@@ -3543,7 +3548,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         Object[] arrays = {};
         cleanObjects(objetos, arrays);
     }
-    
+
     public void limpiarTables(JTable tabla) {
         String Titulos[] = {};
         modelo = new DefaultTableModel(null, Titulos) {
@@ -3554,7 +3559,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         };
         tabla.setModel(modelo);
     }
-    
+
     private void cargarTblHabitaciones() {
         try {
             String Titulos[] = {"id", "Habitación", "Sencillas", "Dobles", "Tipo"};
@@ -3585,12 +3590,12 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             rh.tblHabitaciones.getColumnModel().getColumn(0).setMinWidth(0);
             rh.tblHabitaciones.getColumnModel().getColumn(0).setPreferredWidth(0);
             rh.tblHabitaciones.setModel(modelo);
-            
+
         } catch (SQLException ex) {
             System.out.println("error " + ex);
         }
     }
-    
+
     private boolean newFactura(String tipoDoc) {
         boolean error = false;
         if (tipoDoc.equals("factura")) {
@@ -3656,7 +3661,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         return error;
     }
-    
+
     public void cargarMotivos() throws SQLException {
         motivosDao = new MotivosEstadiaDAO();
         rh.cboMotivo.removeAllItems();
@@ -3668,7 +3673,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         AutoCompleteDecorator.decorate(rh.cboMotivo);
     }
-    
+
     public void cargarUnidadesDeMedida() throws SQLException {
         unidadDao = new UnidadesMedidaDAO();
         ps.cboUnidad.removeAllItems();
@@ -3680,7 +3685,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         AutoCompleteDecorator.decorate(ps.cboUnidad);
     }
-    
+
     private void guardarItem() throws SQLException {
         String unidad = (String) ps.cboUnidad.getSelectedItem();
         int Unidad2 = 0;
@@ -3692,7 +3697,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         } else {
             Unidad2 = 1;
         }
-        
+
         String costoUnidad = ps.txtCostoUnidad.getText();
         costoUnidad = costoUnidad.replace(".", "");
         String precioVenta = ps.txtPrecioVenta.getText();
@@ -3715,7 +3720,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             JOptionPane.showMessageDialog(null, "¡Ítem registrado correctamente!");
         }
     }
-    
+
     private void limpiarFactura() {
         Object[] campos2 = {pr.cboTerminoDePago, pr.clVencimientomanual, Principal.lblCliente,
             pr.txtNota, pr.cboProductoServ, pr.txtCostoServicio, pr.cboImpuesto, pr.spCantidad2,
@@ -3735,7 +3740,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error" + ex);
         }
     }
-    
+
     private void cargarHospedajes(String filtro, String cliente) {
         try {
             int idCliente = 0;
@@ -3834,7 +3839,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + ex);
         }
     }
-    
+
     public void cargarNacionalidades() throws SQLException {
         nacionalidadDao = new NacionalidadesDAO();
         mc.cboNacionalidad.removeAllItems();
@@ -3846,7 +3851,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         AutoCompleteDecorator.decorate(mc.cboNacionalidad);
     }
-    
+
     private void facturarHospedaje() {
         int fila = pr.tblListaHospedaje.getSelectedRow();
         if (fila >= 0) {
@@ -3889,7 +3894,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             JOptionPane.showMessageDialog(null, "¡Debes seleccionar un registro!");
         }
     }
-    
+
     private void addRetencionFactura(RetencionesPagos r) throws SQLException {
         if (listRetencionesPagos.size() > 0) {
             for (int i = 0; i < listRetencionesPagos.size(); i++) {
@@ -3909,7 +3914,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             gr.dispose();
         }
     }
-    
+
     public boolean guardarRetenciones() throws SQLException {
         retencionesPagosDao = new RetencionesPagosDAO();
         if (!retencionesPagosDao.crearRetencionPago(listRetencionesPagos, Utils.Utils.getTransaccion(Principal.idVendedor.getText(), "retenciones_pagos"))) {
@@ -3917,7 +3922,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         return true;
     }
-    
+
     private void calcularCostoNoche(int numeroPersonas, int idHabitacion) throws SQLException {
         ArrayList<TiposDeHabitacion> tiposHabitacionFiltro = Utils.Utils.getTiposHabitacionByHabitacion(idHabitacion);
         if (numeroPersonas == 1) {
@@ -3933,15 +3938,15 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             valor = valorAdicionales + valorPareja;
         }
     }
-    
+
     public void SLetra(Object[] campos, boolean letra) {
-        
+
         for (Object campo : campos) {
             ((JTextField) campo).addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyTyped(KeyEvent e) {
                     char c = e.getKeyChar();
-                    
+
                     if (letra) {
                         if (Character.isDigit(c)) {
                             e.consume();
@@ -3953,7 +3958,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             });
         }
     }
-    
+
     private void anularFactura(String idfactura, String concepto) throws SQLException {
         if (Utils.Utils.anularfacturas(idfactura)) {
             facturaDao = new FacturasDAO();
@@ -3973,7 +3978,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             facturaDao = null;
         }
     }
-    
+
     public boolean validarSoloNumeros(String valor) {
         boolean validado;
         try {
@@ -3984,7 +3989,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         }
         return validado;
     }
-    
+
     public void cerrar() {
         Object[] opciones = {"Aceptar", "Cancelar"};
         int eleccion = JOptionPane.showOptionDialog(pr, "¿En realidad desea cerrar la aplicación?", "Mensaje de Confirmación",
@@ -3995,7 +4000,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         } else {
         }
     }
-    
+
     public void cargarUsuarios(String string, String criterio) throws SQLException {
         String Titulos[] = {"id_cliente", "Identificación", "Nombre / Razón", "Dirección", "Celular", "Nacionalidad"};
         modelo = new DefaultTableModel(null, Titulos) {
@@ -4024,7 +4029,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.tblUsers.getColumnModel().getColumn(0).setPreferredWidth(0);
         pr.tblUsers.setModel(modelo);
     }
-    
+
     public void cargarClienteEdit(boolean info) throws SQLException {
         int fila = pr.tblUsers.getSelectedRow();
         if (fila >= 0) {
@@ -4086,7 +4091,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             JOptionPane.showMessageDialog(null, "¡Debe seleccionar un cliente!");
         }
     }
-    
+
     public void cargarTblPagosRealizados(String IdFactura, int ideHospedaje) {
         String Titulos[] = {"id_recibo_caja", "Fecha", "Cuenta", "Tipo Pago", "Valor"};
         modelo = new DefaultTableModel(null, Titulos) {
@@ -4114,7 +4119,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pg.tblPagosRealizados.getColumnModel().getColumn(0).setPreferredWidth(0);
         pg.tblPagosRealizados.setModel(modelo);
     }
-    
+
     private void cargarEmpresas() {
         try {
             empresasdao = new EmpresasDAO();
@@ -4146,7 +4151,7 @@ public final class PrincipalController implements ActionListener, KeyListener, F
             System.out.println("error " + e);
         }
     }
-    
+
     private void ocultarModulos() {
         TestConection tc = new TestConection();
         Thread thread = new Thread(tc);
@@ -4157,11 +4162,11 @@ public final class PrincipalController implements ActionListener, KeyListener, F
         pr.mnuReportes.setVisible(false);
         pr.mnuInventarios.setVisible(false);
     }
-    
+
     public int getIntentosLogin() {
         return intentosLogin;
     }
-    
+
     public void setIntentosLogin(int intentosLogin) {
         this.intentosLogin = intentosLogin;
     }
