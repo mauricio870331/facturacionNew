@@ -46,7 +46,7 @@ public final class Ciudades {
 
     @Override
     public String toString() {
-        return "Ciudades{" + "idCiudad=" + idCiudad + ", nombre=" + nombre + ", idDepartamento=" + dpto.getIdDepartamento() + '}';
+        return  nombre;
     }    
 
     public Departamentos getDpto() {

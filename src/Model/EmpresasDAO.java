@@ -7,6 +7,7 @@ package Model;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -32,9 +33,9 @@ public class EmpresasDAO {
     public List<Empresas> getEmpresasList() throws SQLException {
         List<Empresas> list = new ArrayList<>();
         try {
-            sql = "{call listarEmpresa()}";
-            clstm = cn.prepareCall(sql);
-            rs = clstm.executeQuery();
+            sql = "Select * from empresas";
+            pstm = cn.prepareStatement(sql);
+            rs = pstm.executeQuery();
             while (rs.next()) {
                 Empresas v = new Empresas(rs.getString(1),
                         rs.getString(2),
@@ -55,7 +56,7 @@ public class EmpresasDAO {
     }
 
     //Crear y editar 
-    public boolean crearVendedor(String id_empresa, String nombre_razon, String direccion, String telefono, String correo, String celular, boolean regimen_comun, String logo, String sitio_web, int id_ciudad, boolean estado, String info, String opc) throws SQLException {
+    public boolean crearVendedor(String id_empresa, String nombre_razon, String direccion, String telefono, String correo, String celular, boolean regimen_comun, String logo, String sitio_web, int id_ciudad, boolean estado, String info, String opc, boolean ajustealpeso) throws SQLException {
 //        System.out.println("" + id_empresa + " " + nombre_razon + " " + direccion + " " + telefono + " " + correo + " " + celular + " " + regimen_comun + " " + logo + " " + sitio_web + " " + id_ciudad + " " + estado + " " + opc);
         boolean creado = false;
         FileInputStream fis = null;
@@ -63,54 +64,61 @@ public class EmpresasDAO {
         try {
             cn.setAutoCommit(false);
             if (opc.equals("create")) {
-
-                sql = "{call insertarEmpresa(?,?,?,?,?,?,?,?,?,?,?)}";
+                sql = "insert into empresas values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             } else {
-                sql = "{call actualizarEmpresa(?,?,?,?,?,?,?,?,?,?,?,?)}";
+                sql = "update empresas set nombre_razon = ?, direccion = ?,"
+                        + " telefono = ?, correo=?, celular =?, regimen_comun = ?, logo=?,"
+                        + " sitio_web = ?, id_ciudad=?, estado=?, info=?, ajustar_peso=? "
+                        + "where id_empresa = ?";
             }
-            clstm = cn.prepareCall(sql);
-            if (opc.equals("update")) {
-                clstm.setString(1, id_empresa);
-                clstm.setString(2, nombre_razon);
-                clstm.setString(3, direccion);
-                clstm.setString(4, telefono);
-                clstm.setString(5, correo);
-                clstm.setString(6, celular);
-                clstm.setBoolean(7, regimen_comun);
+            pstm = cn.prepareStatement(sql);
+            if (opc.equals("update")) {                
+                pstm.setString(1, nombre_razon);
+                pstm.setString(2, direccion);
+                pstm.setString(3, telefono);
+                pstm.setString(4, correo);
+                pstm.setString(5, celular);
+                pstm.setBoolean(6, regimen_comun);
                 if (!logo.equals("")) {
                     img1 = new File(logo);
                     fis = new FileInputStream(img1);
-                    clstm.setBinaryStream(8, fis, (int) img1.length());
+                    pstm.setBinaryStream(7, fis, (int) img1.length());
                 } else {
-                    clstm.setBinaryStream(8, null);
+                    pstm.setBinaryStream(7, null);
                 }
-                clstm.setString(9, sitio_web);
-                clstm.setInt(10, id_ciudad);
-                clstm.setBoolean(11, estado);
-                clstm.setString(12, info);
+                pstm.setString(8, sitio_web);
+                pstm.setInt(9, id_ciudad);
+                pstm.setBoolean(10, estado);
+                pstm.setString(11, info);
+                pstm.setBoolean(12, ajustealpeso);
+                pstm.setString(13, id_empresa);
             } else {
-                clstm.setString(1, nombre_razon);
-                clstm.setString(2, direccion);
-                clstm.setString(3, telefono);
-                clstm.setString(4, correo);
-                clstm.setString(5, celular);
-                clstm.setBoolean(6, regimen_comun);
-                clstm.setString(7, logo);
-                clstm.setString(8, sitio_web);
-                clstm.setInt(9, id_ciudad);
-                clstm.setBoolean(10, estado);
-                clstm.setString(11, info);
+                pstm.setString(1, id_empresa);
+                pstm.setString(2, nombre_razon);
+                pstm.setString(3, direccion);
+                pstm.setString(4, telefono);
+                pstm.setString(5, correo);
+                pstm.setString(6, celular);
+                pstm.setBoolean(7, regimen_comun);
+                if (!logo.equals("")) {
+                    img1 = new File(logo);
+                    fis = new FileInputStream(img1);
+                    pstm.setBinaryStream(8, fis, (int) img1.length());
+                } else {
+                    pstm.setBinaryStream(8, null);
+                }
+                pstm.setString(9, sitio_web);
+                pstm.setInt(10, id_ciudad);
+                pstm.setBoolean(11, estado);
+                pstm.setString(12, "");
+                pstm.setString(13, info);
+                pstm.setBoolean(14, ajustealpeso);
             }
 
-            rs = clstm.executeQuery();
-            String result = "";
-            while (rs.next()) {
-                result = rs.getString(1);
-            }
-            System.out.println("result = " + result);//pendiente mostrar en joptionpane
+            pstm.executeUpdate();
             creado = true;
             cn.commit();
-        } catch (Exception e) {
+        } catch (FileNotFoundException | SQLException e) {
             System.out.println("error " + e);
         }
         return creado;

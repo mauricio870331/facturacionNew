@@ -5,6 +5,8 @@
  */
 package App;
 
+import Model.Ciudades;
+
 /**
  *
  * @author Mauricio Herrera
@@ -16,7 +18,7 @@ public class ModalEmpresas extends javax.swing.JDialog {
      */
     public ModalEmpresas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -33,15 +35,41 @@ public class ModalEmpresas extends javax.swing.JDialog {
         imagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpresas = new javax.swing.JTable();
-        idEmpresa = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        empresa = new javax.swing.JTextField();
+        correo = new javax.swing.JTextField();
+        telefono = new javax.swing.JTextField();
+        web = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        direccion = new javax.swing.JTextField();
+        idEmpresa = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        cboCiudad = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        celular = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        ajustarpeso = new javax.swing.JCheckBox();
+        regimen = new javax.swing.JCheckBox();
+        btnCancelar = new javax.swing.JButton();
 
         editarLogo.setText("Cambiar Logo");
         popupEmpresas.add(editarLogo);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Empresas");
+        setPreferredSize(new java.awt.Dimension(573, 409));
+        setResizable(false);
+        setSize(new java.awt.Dimension(573, 409));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         imagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        imagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        getContentPane().add(imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(382, 11, 163, 123));
 
         tblEmpresas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -54,43 +82,67 @@ public class ModalEmpresas extends javax.swing.JDialog {
         tblEmpresas.setComponentPopupMenu(popupEmpresas);
         jScrollPane1.setViewportView(tblEmpresas);
 
-        idEmpresa.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 180, 535, 192));
 
-        btnGuardar.setText("jButton1");
+        btnGuardar.setText("Guardar");
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 75, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGuardar))
-                        .addGap(92, 92, 92)
-                        .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(idEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+        empresa.setPreferredSize(new java.awt.Dimension(20, 20));
+        getContentPane().add(empresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 36, 300, 20));
+        getContentPane().add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 111, 120, 20));
+        getContentPane().add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 61, 120, -1));
+        getContentPane().add(web, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 86, 300, 20));
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Dirección:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 10, 60, 20));
+        getContentPane().add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 120, 20));
+        getContentPane().add(idEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 11, 120, 20));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Correo:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 111, 60, 20));
+
+        jTextField7.setPreferredSize(new java.awt.Dimension(20, 20));
+        getContentPane().add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 36, 300, -1));
+
+        getContentPane().add(cboCiudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 111, 120, 20));
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Nit:");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 11, 60, 20));
+
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Empresa:");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 36, 60, 20));
+
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Telefono:");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 61, 60, 20));
+
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Sitio Web:");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 86, 60, 20));
+        getContentPane().add(celular, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 61, 120, -1));
+
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel16.setText("Celular:");
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(188, 61, 60, 20));
+
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("Ciudad:");
+        getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 111, 60, 20));
+
+        ajustarpeso.setText("Ajustar Peso");
+        getContentPane().add(ajustarpeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, -1, -1));
+
+        regimen.setText("Regimen Comun");
+        getContentPane().add(regimen, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 140, -1, -1));
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 75, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -139,12 +191,31 @@ public class ModalEmpresas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JCheckBox ajustarpeso;
+    public javax.swing.JButton btnCancelar;
     public javax.swing.JButton btnGuardar;
+    public javax.swing.JComboBox<Ciudades> cboCiudad;
+    public javax.swing.JTextField celular;
+    public javax.swing.JTextField correo;
+    public javax.swing.JTextField direccion;
     public javax.swing.JMenuItem editarLogo;
-    public javax.swing.JLabel idEmpresa;
+    public javax.swing.JTextField empresa;
+    public javax.swing.JTextField idEmpresa;
     public javax.swing.JLabel imagen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField7;
     private javax.swing.JPopupMenu popupEmpresas;
+    public javax.swing.JCheckBox regimen;
     public javax.swing.JTable tblEmpresas;
+    public javax.swing.JTextField telefono;
+    public javax.swing.JTextField web;
     // End of variables declaration//GEN-END:variables
 }
